@@ -11,27 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController
 public class VendasApplication {
-
-    @Value("${application.name}")
-    private String applicationName;
-
-    @Autowired
-    @Cachorro
-    private Animal animal;
-
-    @Bean(name="executarAnimal")
-    CommandLineRunner executar(){
-        return args -> {
-            this.animal.fazerBarulho();
-        };
-    }
-
-    @GetMapping("/hello")
-    public String helloWorld() {
-        return applicationName;
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(VendasApplication.class);
