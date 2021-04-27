@@ -1,4 +1,4 @@
-package io.github.caioxcezar.domain.domain.entity;
+package io.github.caioxcezar.domain.entity;
 
 import java.math.BigDecimal;
 
