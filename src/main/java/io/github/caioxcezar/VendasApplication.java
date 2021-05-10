@@ -1,7 +1,7 @@
 package io.github.caioxcezar;
 
 import io.github.caioxcezar.domain.entity.Cliente;
-import io.github.caioxcezar.domain.repositorio.Clientes;
+import io.github.caioxcezar.domain.repository.Clientes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package io.github.caioxcezar.domain.repositorio;
+package io.github.caioxcezar.domain.repository;
 
 import io.github.caioxcezar.domain.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
