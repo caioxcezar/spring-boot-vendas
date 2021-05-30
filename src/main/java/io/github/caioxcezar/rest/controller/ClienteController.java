@@ -2,7 +2,6 @@ package io.github.caioxcezar.rest.controller;
 
 import io.github.caioxcezar.domain.entity.Cliente;
 import io.github.caioxcezar.domain.repository.Clientes;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +25,12 @@ public class ClienteController {
             return ResponseEntity.ok(cliente.get());
         else
             return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/api/clientes")
+    @ResponseBody
+    public ResponseEntity save(@RequestBody Cliente cliente) {
+        Cliente clienteSalvo = clientes.save(cliente);
+        return ResponseEntity.ok(clienteSalvo);
     }
 }
