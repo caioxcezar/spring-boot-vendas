@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.*;
+
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {
@@ -21,7 +23,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public Produto create(@RequestBody Produto produto){
         return repository.save(produto);
     }
@@ -30,11 +32,11 @@ public class ProdutoController {
     @ResponseStatus(HttpStatus.OK)
     public Produto read(@PathVariable Integer id){
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Produto não encontrado"));
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public List<Produto> read(Produto produto){
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreCase()
@@ -44,21 +46,21 @@ public class ProdutoController {
     }
 
     @PutMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     public void update(@PathVariable Integer id, @RequestBody Produto produto){
         repository.findById(id).map(prd -> {
             produto.setId(prd.getId());
             repository.save(produto);
             return produto;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+        }).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Produto não encontrado"));
     }
 
     @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable Integer id) {
         repository.findById(id).map(prd -> {
             repository.delete(prd);
             return Void.TYPE;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+        }).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Produto não encontrado"));
     }
 }
