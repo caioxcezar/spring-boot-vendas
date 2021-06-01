@@ -14,22 +14,22 @@ import java.util.List;
 @RequestMapping("/api/produtos")
 public class ProdutoController {
 
-    private final Produtos produtos;
+    private final Produtos repository;
 
-    public ProdutoController(Produtos produtos) {
-        this.produtos = produtos;
+    public ProdutoController(Produtos repository) {
+        this.repository = repository;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Produto create(@RequestBody Produto produto){
-        return produtos.save(produto);
+        return repository.save(produto);
     }
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Produto read(@PathVariable Integer id){
-        return produtos.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
     }
 
@@ -40,15 +40,15 @@ public class ProdutoController {
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example example = Example.of(produto, matcher);
-        return produtos.findAll(example);
+        return repository.findAll(example);
     }
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Integer id, @RequestBody Produto produto){
-        produtos.findById(id).map(prd -> {
+        repository.findById(id).map(prd -> {
             produto.setId(prd.getId());
-            produtos.save(produto);
+            repository.save(produto);
             return produto;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
     }
@@ -56,9 +56,9 @@ public class ProdutoController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        produtos.findById(id).map(prd -> {
-            produtos.delete(prd);
-            return prd;
+        repository.findById(id).map(prd -> {
+            repository.delete(prd);
+            return Void.TYPE;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
     }
 }
