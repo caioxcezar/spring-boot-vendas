@@ -13,12 +13,12 @@ import javax.persistence.*;
 @Data
 public class ItemPedido {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
     @ManyToOne
     @JoinColumn(name="pedido_id")
-    private Cliente pedido;
+    private Pedido pedido;
     @ManyToOne
     @JoinColumn(name="produto_id")
     private Produto produto;
