@@ -2,6 +2,8 @@ package io.github.caioxcezar.rest.controller;
 
 import io.github.caioxcezar.domain.entity.ItemPedido;
 import io.github.caioxcezar.domain.entity.Pedido;
+import io.github.caioxcezar.domain.enums.StatusPedido;
+import io.github.caioxcezar.rest.dto.AtualizacaoStatusPedidoDTO;
 import io.github.caioxcezar.rest.dto.InformacoesItemPedidoDTO;
 import io.github.caioxcezar.rest.dto.InformacoesPedidoDTO;
 import io.github.caioxcezar.rest.dto.PedidoDTO;
@@ -52,6 +54,12 @@ public class PedidoController {
                 .status(pedido.getStatus().name())
                 .itens(converter(pedido.getItens()))
                 .build();
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void updateStatus(@PathVariable Integer id, @RequestBody AtualizacaoStatusPedidoDTO dto) {
+        service.atualizaStatus(id, StatusPedido.valueOf(dto.getNovoStatus()));
     }
 
     private List<InformacoesItemPedidoDTO> converter(List<ItemPedido> itens) {

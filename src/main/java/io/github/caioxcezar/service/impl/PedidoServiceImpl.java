@@ -9,6 +9,7 @@ import io.github.caioxcezar.domain.repository.Clientes;
 import io.github.caioxcezar.domain.repository.Pedidos;
 import io.github.caioxcezar.domain.repository.Produtos;
 import io.github.caioxcezar.domain.repository.ItensPedido;
+import io.github.caioxcezar.exception.PedidoNaoEncontradoException;
 import io.github.caioxcezar.exception.RegraNegocioException;
 import io.github.caioxcezar.rest.dto.ItemPedidoDTO;
 import io.github.caioxcezar.rest.dto.PedidoDTO;
@@ -51,6 +52,16 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return pedidoRespository.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        pedidoRespository.findById(id).map(pedido -> {
+            pedido.setStatus(statusPedido);
+            pedidoRespository.save(pedido);
+            return Void.TYPE;
+        }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 
     private List<ItemPedido> converterItens(Pedido pedido, List<ItemPedidoDTO> items){

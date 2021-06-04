@@ -1,5 +1,6 @@
 package io.github.caioxcezar.rest.controller;
 
+import io.github.caioxcezar.exception.PedidoNaoEncontradoException;
 import io.github.caioxcezar.exception.RegraNegocioException;
 import io.github.caioxcezar.rest.ApiErros;
 import org.springframework.http.HttpStatus;
@@ -14,5 +15,10 @@ public class AppControllerAdvice {
     public ApiErros handleRegraNegocioException(RegraNegocioException ex) {
         String mensagemErro = ex.getMessage();
         return new ApiErros(mensagemErro);
+    }
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErros handlePedidoNotFoundException(PedidoNaoEncontradoException ex){
+        return new ApiErros(ex.getMessage());
     }
 }
