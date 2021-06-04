@@ -4,6 +4,7 @@ import io.github.caioxcezar.domain.entity.Cliente;
 import io.github.caioxcezar.domain.entity.ItemPedido;
 import io.github.caioxcezar.domain.entity.Pedido;
 import io.github.caioxcezar.domain.entity.Produto;
+import io.github.caioxcezar.domain.enums.StatusPedido;
 import io.github.caioxcezar.domain.repository.Clientes;
 import io.github.caioxcezar.domain.repository.Pedidos;
 import io.github.caioxcezar.domain.repository.Produtos;
@@ -35,6 +36,7 @@ public class PedidoServiceImpl implements PedidoService {
         Cliente cliente = clientesRespository.findById(dto.getCliente()).orElseThrow(() -> new RegraNegocioException("Código de cliente inválido."));
 
         Pedido pedido = new Pedido();
+        pedido.setStatus(StatusPedido.REALIZADO);
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
