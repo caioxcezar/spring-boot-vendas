@@ -1,6 +1,9 @@
 package io.github.caioxcezar.config;
 
+import io.github.caioxcezar.service.impl.UsuarioServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,16 +13,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UsuarioServiceImp usuarioService;
+
+    public SecurityConfig(@Lazy UsuarioServiceImp usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
-                .withUser("caio")
-                .password(passwordEncoder().encode("123"))
-                .roles("USER","ADMIN");
+        auth
+                .userDetailsService(usuarioService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
