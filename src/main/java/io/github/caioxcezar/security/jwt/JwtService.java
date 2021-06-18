@@ -1,10 +1,8 @@
-package io.github.caioxcezar;
+package io.github.caioxcezar.security.jwt;
 
 import io.github.caioxcezar.domain.entity.Usuario;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

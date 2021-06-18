@@ -2,6 +2,7 @@ package io.github.caioxcezar.service.impl;
 
 import io.github.caioxcezar.domain.entity.Usuario;
 import io.github.caioxcezar.domain.repository.UsuarioRepository;
+import io.github.caioxcezar.exception.SenhaInvalidaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,5 +37,14 @@ public class UsuarioServiceImp implements UserDetailsService {
     @Transactional
     public Usuario salvar(Usuario usuario) {
         return repository.save(usuario);
+    }
+
+    public UserDetails autenticar(Usuario usuario) {
+        UserDetails user = loadUserByUsername(usuario.getLogin());
+        boolean isValid = encoder.matches(usuario.getSenha(), user.getPassword());
+        if (isValid){
+            return user;
+        }
+        throw new SenhaInvalidaException();
     }
 }
