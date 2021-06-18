@@ -5,7 +5,6 @@ import io.github.caioxcezar.domain.repository.Clientes;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,7 +30,7 @@ public class ClienteController {
             @ApiResponse(code = 200, message = "Cliente Encontrado"),
             @ApiResponse(code = 404, message = "Cliente não encontrado para o ID informado")
     })
-    public Cliente getClienteById(@PathVariable @ApiParam("Id do Cliente") Integer id) {
+    public Cliente getClienteById(@PathVariable Integer id) {
         return clientes
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Cliente não encontrado"));
